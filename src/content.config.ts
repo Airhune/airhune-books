@@ -3,7 +3,7 @@ import { defineCollection, z } from "astro:content";
 const booksCollection = defineCollection({
   schema: z.object({
     title: z.string(),
-    slug: z.string(),
+    slug_1: z.string(),
     author: z.string(),
     description: z.string(),
     img: z.string(),

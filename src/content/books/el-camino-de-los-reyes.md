@@ -1,6 +1,6 @@
 ---
 title: El Camino de los Reyes
-slug: el-camino-de-los-reyes
+slug_1: el-camino-de-los-reyes
 author: Brandon Sanderson
 img: /el-camino-de-los-reyes.jpg
 description: El primer libro de la serie "El Archivo de las Tormentas" de Brandon Sanderson.

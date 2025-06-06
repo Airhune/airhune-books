@@ -1,6 +1,6 @@
 ---
 title: Dune
-slug: dune
+slug_1: dune
 author: Frank Herbert
 img: /dune.jpg
 description: "Una obra maestra de la ciencia ficción que explora temas de política, religión y ecología en un universo complejo."
