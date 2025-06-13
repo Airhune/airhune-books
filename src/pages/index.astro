@@ -30,47 +30,51 @@ const bestsellersBooks = data_bestsellers.items || [];
 	<section class="p-5 rounded-4xl">
 		<!-- <div class="bg-[#210A10] grid p-20 rounded-4xl"> -->
 			<div class="container mx-auto">
-				<div class="flex items-center justify-between pb-10 pt-0">
-					<h2 class="font-bold text-gray-200 text-5xl">New Releases Books</h2>
-					<a href="/new-releases" class="px-3 py-2 rounded-full text-white rounded-full bg-white/20 pointer text-sm hover:bg-white/30 transition duration-200">
-					  View all
-					</a>
-				  </div>
+				<section>
+					<h2 class="font-bold text-gray-200 text-5xl text-center border-b border-white/10 pb-10">New Releases Books</h2>
 
+					<div class="container grid gap-6 md:grid-cols-6 pt-10">
+						{
+							recommendedBooks.map((recommendedBook: any) => (
+								<BookCard
+									id={recommendedBook.id}
+									thumbnail={recommendedBook.volumeInfo.imageLinks?.thumbnail}
+									title={recommendedBook.volumeInfo.title}
+									authors={recommendedBook.volumeInfo.authors}
+								/>
+							))
+						}
+					</div>
 
-				<div class="container grid gap-6 md:grid-cols-6">
-					{
-						recommendedBooks.map((recommendedBook: any) => (
-							<BookCard
-								id={recommendedBook.id}
-								thumbnail={recommendedBook.volumeInfo.imageLinks?.thumbnail}
-								title={recommendedBook.volumeInfo.title}
-								authors={recommendedBook.volumeInfo.authors}
-							/>
-						))
-					}
-				</div>
+					<div class="flex justify-end pb-5 pt-5">
+						<a href="/new-releases" class="px-3 py-2 rounded-full text-white rounded-full bg-white/20 pointer text-sm hover:bg-white/30 transition duration-200">
+						View all
+						</a>
+					</div>
+				</section>
 
-				<div class="flex items-center justify-between pb-10 pt-30">
-					<h2 class="font-bold text-gray-200 text-5xl">Bestsellers</h2>
-					<a href="/bestsellers" class="px-3 py-2 rounded-full text-white rounded-full bg-white/20 pointer text-sm hover:bg-white/30 transition duration-200">
-					  View all
-					</a>
-				  </div>
+				<section class="mt-20">
+					<h2 class="font-bold text-gray-200 text-5xl text-center border-b border-white/10 pb-10">Bestsellers</h2>
 
+					<div class="container grid gap-6 md:grid-cols-6 pt-10">
+						{
+							bestsellersBooks.map((bestsellersBook: any) => (
+								<BookCard
+									id={bestsellersBook.id}
+									thumbnail={bestsellersBook.volumeInfo.imageLinks?.thumbnail}
+									title={bestsellersBook.volumeInfo.title}
+									authors={bestsellersBook.volumeInfo.authors}
+								/>
+							))
+						}
+					</div>
 
-				<div class="container grid gap-6 md:grid-cols-6">
-					{
-						bestsellersBooks.map((bestsellersBook: any) => (
-							<BookCard
-								id={bestsellersBook.id}
-								thumbnail={bestsellersBook.volumeInfo.imageLinks?.thumbnail}
-								title={bestsellersBook.volumeInfo.title}
-								authors={bestsellersBook.volumeInfo.authors}
-							/>
-						))
-					}
-				</div>
+					<div class="flex justify-end pb-5 pt-5">
+						<a href="/bestsellers" class="px-3 py-2 rounded-full text-white rounded-full bg-white/20 pointer text-sm hover:bg-white/30 transition duration-200">
+						View all
+						</a>
+					</div>
+				</section>
 			</div>
 		<!-- </div> -->
   	</section>
