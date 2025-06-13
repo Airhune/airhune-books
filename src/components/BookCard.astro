@@ -25,12 +25,12 @@ const { id, thumbnail, title, authors } = Astro.props;
         {title}
     </h2>
 
-    {authors?.length > 0 ? (
+    {Array.isArray(authors) && authors.length > 0 ? (
         authors.map((author) => (
-          <p class="text-gray-200 mb-1 text-center">{author}</p>
+            <p class="text-gray-200 mb-1 text-center">{author}</p>
         ))
-      ) : (
+    ) : (
         <p class="text-gray-200 mb-2 text-center"></p>
-      )}
+    )}
 
 </article>

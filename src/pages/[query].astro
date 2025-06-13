@@ -12,7 +12,7 @@ const lang = "en";
 if (searchTerm.trim()) {
     const search_response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchTerm)}&maxResults=36&langRestrict=${lang}`);
     const results = await search_response.json();
-    searchResults = results.items?.map(item => item) || [];
+    searchResults = results.items?.map((item: any) => item) || [];
 }
 
 // Manejar nueva búsqueda
@@ -41,7 +41,7 @@ const handleNewSearch = async () => {
         <p class="text-gray-200 text-center">No se encontraron resultados.</p>
     ) : searchResults.length > 0 ? (
         <div class="container grid gap-6 md:grid-cols-6">
-            {searchResults.map((book) => (
+            {searchResults.map((book: any) => (
                 <BookCard
                     id={book.id}
                     thumbnail={book.volumeInfo.imageLinks?.thumbnail}
