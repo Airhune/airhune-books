@@ -1,0 +1,36 @@
+---
+import Layout from "../layouts/Layout.astro";
+import BookCard from "../components/BookCard.astro";
+
+// const books = await getCollection('books');
+
+const query = "romantasy+bestseller";
+const lang = "en";
+const books_response = await fetch(
+  `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&orderBy=newest&maxResults=18&langRestrict=${lang}`
+);
+const data = await books_response.json();
+const books = data.items || [];
+---
+
+<Layout title="New Releases Books - Airhune's Books">
+
+	<section class="p-5 rounded-4xl">
+        <div class="container mx-auto">
+            <h2 class="font-bold text-gray-200 text-5xl text-center pb-20 pt-20">Bestsellers</h2>
+
+            <div class="container grid gap-6 md:grid-cols-6">
+                {
+                    books.map((book: any) => (
+                        <BookCard
+                            id={book.id}
+                            thumbnail={book.volumeInfo.imageLinks?.thumbnail}
+                            title={book.volumeInfo.title}
+                            authors={book.volumeInfo.authors}
+                        />
+                    ))
+                }
+            </div>
+        </div>
+  	</section>
+</Layout>

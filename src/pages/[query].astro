@@ -1,0 +1,54 @@
+---
+import BookCard from "../components/BookCard.astro";
+import Search from "../components/Search.astro";
+import Layout from "../layouts/Layout.astro";
+
+const { query } = Astro.params;
+
+const searchTerm = Astro.url.searchParams.get('q') || '';
+let searchResults = [];
+const lang = "en";
+
+if (searchTerm.trim()) {
+    const search_response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchTerm)}&maxResults=36&langRestrict=${lang}`);
+    const results = await search_response.json();
+    searchResults = results.items?.map(item => item) || [];
+}
+
+// Manejar nueva búsqueda
+let newSearchTerm = '';
+const handleNewSearch = async () => {
+    if (newSearchTerm.trim()) {
+        return Astro.redirect(`/search/${encodeURIComponent(newSearchTerm)}`);
+    }
+};
+---
+
+
+<Layout title={`Search results - Airhune Books`}>
+
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-10 mt-20 text-center">
+        {searchTerm.trim() ? (
+            <span>Search results for: <span class="text-pink-500">{searchTerm}</span></span>
+        ) : (
+            <span>Search</span>
+        )}
+    </h2>
+
+    <Search />
+
+    {searchTerm.trim() && searchResults.length === 0 ? (
+        <p class="text-gray-200 text-center">No se encontraron resultados.</p>
+    ) : searchResults.length > 0 ? (
+        <div class="container grid gap-6 md:grid-cols-6">
+            {searchResults.map((book) => (
+                <BookCard
+                    id={book.id}
+                    thumbnail={book.volumeInfo.imageLinks?.thumbnail}
+                    title={book.volumeInfo.title}
+                    authors={book.volumeInfo.authors}
+                />
+            ))}
+        </div>
+    ) : null}
+</Layout>

@@ -1,58 +1,77 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
+import Search from "../components/Search.astro";
+import BookCard from "../components/BookCard.astro";
 
 // const books = await getCollection('books');
 
 const query = "subject:fantasy+romance";
 const lang = "en";
 const recommendedBooks_response = await fetch(
-  `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&orderBy=newest&maxResults=8&langRestrict=${lang}`
+  `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&orderBy=newest&maxResults=6&langRestrict=${lang}`
 );
 const data = await recommendedBooks_response.json();
 const recommendedBooks = data.items || [];
+
+const query2 = "romantasy+bestseller";
+const bestsellersBooks_response = await fetch(
+  `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query2)}&orderBy=newest&maxResults=6&langRestrict=${lang}`
+);
+const data_bestsellers = await bestsellersBooks_response.json();
+const bestsellersBooks = data_bestsellers.items || [];
 ---
 
 <Layout title="Airhune's Books, mis libros recomendados">
 	<Hero />
 
-	<div class="relative w-full max-w-xl mx-auto bg-white rounded-full mb-20">
-		<input placeholder="Search" class="rounded-full w-full h-16 bg-transparent py-2 pl-8 pr-32 outline-none text-black border-2 border-gray-100 shadow-md hover:outline-none focus:ring-pink-200 focus:border-pink-200" type="text" name="query" id="query">
-		<button type="submit" class="cursor-pointer absolute inline-flex items-center h-10 w- px-4 py-2 text-sm text-black transition duration-150 ease-in-out rounded-full outline-none right-3 top-3 bg-pink-600 sm:px-6 sm:text-base sm:font-medium hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-		  <svg class="w-4 h-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-		  </svg>
-		</button>
-	  </div>
+	<Search />
 
-	<section aria-label="Libros recomendados" class="bg-white/10 backdrop-blur-lg p-5 rounded-4xl">
-		<div class="bg-[#210A10] grid p-20 rounded-4xl">
-			<div class="container px-4 mx-auto max-w-screen-xl">
-				<h2 class="font-bold text-gray-300 text-5xl p-10 pb-20 pt-0 text-center">Last releases</h2>
+	<section class="p-5 rounded-4xl">
+		<!-- <div class="bg-[#210A10] grid p-20 rounded-4xl"> -->
+			<div class="container mx-auto">
+				<div class="flex items-center justify-between pb-10 pt-0">
+					<h2 class="font-bold text-gray-200 text-5xl">New Releases Books</h2>
+					<a href="/new-releases" class="px-3 py-2 rounded-full text-white rounded-full bg-white/20 pointer text-sm hover:bg-white/30 transition duration-200">
+					  View all
+					</a>
+				  </div>
 
-				<div class="container grid gap-6 md:grid-cols-4">
-				{
-					recommendedBooks.map((recommendedBook: any) => (
-						<article class="p-4 bg-[#ffabbe]/10 rounded-xl transition hover:scale-105">
-							<a href={`/book/${recommendedBook.id}`} class="pointer rounded-md mt-2 mb-4 flex justify-center items-center">
-								<img
-									transition:name={`img-${recommendedBook.id}`}
-									src={recommendedBook.volumeInfo.imageLinks.thumbnail}
-									alt={recommendedBook.volumeInfo.title}
-									class="w-50 max-h-75 min-h-75 rounded"
-								/>
-							</a>
-							<h2 class="text-xl font-bold mt-5 mb-2 leading-tight text-center">
-								{recommendedBook.volumeInfo.title}
-							</h2>
-							<p class="text-gray-300 mb-2 text-center">
-								{recommendedBook.volumeInfo.authors}
-							</p>
-						</article>
-					))
-				}
+
+				<div class="container grid gap-6 md:grid-cols-6">
+					{
+						recommendedBooks.map((recommendedBook: any) => (
+							<BookCard
+								id={recommendedBook.id}
+								thumbnail={recommendedBook.volumeInfo.imageLinks?.thumbnail}
+								title={recommendedBook.volumeInfo.title}
+								authors={recommendedBook.volumeInfo.authors}
+							/>
+						))
+					}
+				</div>
+
+				<div class="flex items-center justify-between pb-10 pt-30">
+					<h2 class="font-bold text-gray-200 text-5xl">Bestsellers</h2>
+					<a href="/bestsellers" class="px-3 py-2 rounded-full text-white rounded-full bg-white/20 pointer text-sm hover:bg-white/30 transition duration-200">
+					  View all
+					</a>
+				  </div>
+
+
+				<div class="container grid gap-6 md:grid-cols-6">
+					{
+						bestsellersBooks.map((bestsellersBook: any) => (
+							<BookCard
+								id={bestsellersBook.id}
+								thumbnail={bestsellersBook.volumeInfo.imageLinks?.thumbnail}
+								title={bestsellersBook.volumeInfo.title}
+								authors={bestsellersBook.volumeInfo.authors}
+							/>
+						))
+					}
 				</div>
 			</div>
-		</div>
+		<!-- </div> -->
   	</section>
 </Layout>

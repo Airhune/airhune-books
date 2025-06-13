@@ -1,0 +1,36 @@
+---
+interface Props {
+    id: string;
+    thumbnail: string;
+    title: string;
+    authors: string | null;
+}
+
+const { id, thumbnail, title, authors } = Astro.props;
+
+---
+<article class="p-4 bg-[#d5ccce]/20 rounded-xl transition hover:scale-105 cursor">
+    <a href={`/book/${id}`} class="rounded-md mt-2 mb-4 flex justify-center items-center">
+        <div class="w-48 h-48 overflow-hidden rounded">
+            <img
+                transition:name={`img-${id}`}
+                src={thumbnail || '/icon.png'}
+                alt={title}
+                class="w-full h-full object-contain"
+                class:list={{ 'opacity-30': !thumbnail }}
+            />
+        </div>
+    </a>
+    <h2 class="text-l font-bold mt-5 mb-2 leading-tight text-center">
+        {title}
+    </h2>
+
+    {authors?.length > 0 ? (
+        authors.map((author) => (
+          <p class="text-gray-200 mb-1 text-center">{author}</p>
+        ))
+      ) : (
+        <p class="text-gray-200 mb-2 text-center"></p>
+      )}
+
+</article>
