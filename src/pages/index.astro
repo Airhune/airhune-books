@@ -6,7 +6,6 @@ import Hero from "../components/Hero.astro";
 
 const query = "subject:fantasy+romance";
 const lang = "en";
-// const apiKey = 'AIzaSyAn9SIh7doL5KDyofkzQU5HJ-U8lmKfnek'; // Reemplaza con tu clave de Google Books API
 const recommendedBooks_response = await fetch(
   `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&orderBy=newest&maxResults=8&langRestrict=${lang}`
 );
