@@ -25,57 +25,102 @@ const bestsellersBooks = data_bestsellers.items || [];
 <Layout title="Airhune's Books, mis libros recomendados">
 	<Hero />
 
-	<Search />
+	<div class="container mx-auto p-5">
+		<section class="pt-20">
+			<h2 class="font-bold text-gray-200 text-5xl text-center border-b border-white/20 pb-10">New Releases Books</h2>
 
-	<section class="p-5 rounded-4xl">
-		<!-- <div class="bg-[#210A10] grid p-20 rounded-4xl"> -->
-			<div class="container mx-auto">
-				<section>
-					<h2 class="font-bold text-gray-200 text-5xl text-center border-b border-white/10 pb-10">New Releases Books</h2>
-
-					<div class="container grid gap-6 md:grid-cols-6 pt-10">
-						{
-							recommendedBooks.map((recommendedBook: any) => (
-								<BookCard
-									id={recommendedBook.id}
-									thumbnail={recommendedBook.volumeInfo.imageLinks?.thumbnail}
-									title={recommendedBook.volumeInfo.title}
-									authors={recommendedBook.volumeInfo.authors}
-								/>
-							))
-						}
-					</div>
-
-					<div class="flex justify-end pb-5 pt-5">
-						<a href="/new-releases" class="px-3 py-2 rounded-full text-white rounded-full bg-white/20 pointer text-sm hover:bg-white/30 transition duration-200">
-						View all
-						</a>
-					</div>
-				</section>
-
-				<section class="mt-20">
-					<h2 class="font-bold text-gray-200 text-5xl text-center border-b border-white/10 pb-10">Bestsellers</h2>
-
-					<div class="container grid gap-6 md:grid-cols-6 pt-10">
-						{
-							bestsellersBooks.map((bestsellersBook: any) => (
-								<BookCard
-									id={bestsellersBook.id}
-									thumbnail={bestsellersBook.volumeInfo.imageLinks?.thumbnail}
-									title={bestsellersBook.volumeInfo.title}
-									authors={bestsellersBook.volumeInfo.authors}
-								/>
-							))
-						}
-					</div>
-
-					<div class="flex justify-end pb-5 pt-5">
-						<a href="/bestsellers" class="px-3 py-2 rounded-full text-white rounded-full bg-white/20 pointer text-sm hover:bg-white/30 transition duration-200">
-						View all
-						</a>
-					</div>
-				</section>
+			<div class="container grid gap-6 md:grid-cols-6 pt-10">
+				{
+					recommendedBooks.map((recommendedBook: any) => (
+						<BookCard
+							id={recommendedBook.id}
+							thumbnail={recommendedBook.volumeInfo.imageLinks?.thumbnail}
+							title={recommendedBook.volumeInfo.title}
+							authors={recommendedBook.volumeInfo.authors}
+						/>
+					))
+				}
 			</div>
-		<!-- </div> -->
-  	</section>
+
+			<div class="flex justify-end pb-5 pt-5">
+				<a href="/new-releases" class="px-3 py-2 text-white rounded-full bg-white/20 pointer text-sm hover:bg-white/30 transition duration-200">
+				View all
+				</a>
+			</div>
+		</section>
+	</div>
+
+	<section class="w-full bg-white/40 my-30 backdrop-blur-lg p-20">
+		<h2 class="font-bold text-[#460E21]   text-5xl text-center  pb-10 mb-10">Book Types</h2>
+
+		<div class="w-full grid grid-cols-6 gap-4 px-4">
+
+			<a href="/category/history" class="flex flex-col items-center cursor-pointer hover:scale-105  transition-transform w-full">
+				<div class="bg-[#460E21]  p-5 rounded-full hover:bg-[#460E21] /80 transition-transform ">
+					<img src="/icons/history.png" class="w-16 h-auto filter invert" />
+				</div>
+				<p class="mt-2 text-sm uppercase font-body text-[#460E21]   font-bold text-center w-full">History</p>
+			</a>
+
+			<a href="/category/cooking" class="flex flex-col items-center cursor-pointer hover:scale-105  transition-transform w-full">
+				<div class="bg-[#460E21]  p-5 rounded-full hover:bg-[#460E21] /80 transition-transform ">
+					<img src="/icons/cooking.png" class="w-16 h-auto filter invert" />
+				</div>
+				<p class="mt-2 text-sm uppercase font-body text-[#460E21]  font-bold text-center w-full">Cooking</p>
+			</a>
+
+			<a href="/category/fiction" class="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform w-full">
+				<div class="bg-[#460E21] p-5 rounded-full hover:bg-[#460E21]/80 transition-transform ">
+					<img src="/icons/book.png"class="w-16 h-auto filter invert">
+				</div>
+					<p class="mt-2 text-sm uppercase font-body text-[#460E21]  font-bold text-center w-full">Fiction</p>
+			</a>
+
+			<a href="/category/thriller" class="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform w-full">
+				<div class="bg-[#460E21] p-5 rounded-full hover:bg-[#460E21]/80 transition-transform ">
+					<img src="/icons/ghost_1.png" class="w-16 h-auto filter invert"> <!-- Ícono de libro -->
+					</div>
+				<p class="mt-2 text-sm uppercase font-body text-[#460E21]  font-bold text-center w-full">Thriller</p>
+			</a>
+
+			<a href="/category/romance" class="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform w-full">
+				<div class="bg-[#460E21] p-5 rounded-full hover:bg-[#460E21]/80 transition-transform ">
+					<img src="/icons/romance.png" class="w-16 h-auto filter invert"> <!-- Ícono de libro -->
+				</div>
+				<p class="mt-2 text-sm uppercase font-body text-[#460E21]  font-bold text-center w-full">Romance</p>
+			</a>
+
+			<a href="/category/comics" class="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform w-full">
+				<div class="bg-[#460E21] p-5 rounded-full hover:bg-[#460E21]/80 transition-transform ">
+					<img src="/icons/comic.png" class="w-16 h-auto filter invert">
+				</div> 
+				<p class="mt-2 text-sm uppercase font-body text-[#460E21]  font-bold text-center w-full">Comics</p>
+			</a>
+			</div>
+	</section>
+
+	<div class="container mx-auto p-5">
+		<section class="">
+			<h2 class="font-bold text-gray-200 text-5xl text-center border-b border-white/20 pb-10">Bestsellers</h2>
+
+			<div class="container grid gap-6 md:grid-cols-6 pt-10">
+				{
+					bestsellersBooks.map((bestsellersBook: any) => (
+						<BookCard
+							id={bestsellersBook.id}
+							thumbnail={bestsellersBook.volumeInfo.imageLinks?.thumbnail}
+							title={bestsellersBook.volumeInfo.title}
+							authors={bestsellersBook.volumeInfo.authors}
+						/>
+					))
+				}
+			</div>
+
+			<div class="flex justify-end pb-5 pt-5">
+				<a href="/bestsellers" class="px-3 py-2 text-white rounded-full bg-white/20 pointer text-sm hover:bg-white/30 transition duration-200">
+				View all
+				</a>
+			</div>
+		</section>
+	</div>
 </Layout>

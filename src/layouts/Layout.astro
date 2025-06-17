@@ -18,15 +18,14 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="description" content="Un espacio web con recomendaciones de libros" />
 		<meta name="viewport" content="width=device-width" />
+		<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
 		<title>{title}</title>
 		<ClientRouter />
 	</head>
 	<body class=" bg-body text-body font-body">
 		<section class="bg-gradient-to-t from-[#FC9EB4] via-pink-700 to-[#210A10] pb-50">
-			<div class="container mx-auto px-4">
-				<Header />
-				<slot />
-			</div>
+			<Header />
+			<slot />
 		</section>
 		<Footer />
 	</body>
@@ -43,6 +42,14 @@ const { title } = Astro.props;
 			rgb(var(--accent-light)) 30%,
 			white 60%
 		);
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: 'Florensa', sans-serif;
+	}
+
+	body{
+		font-family: 'Montserrat', sans-serif;
 	}
 
 	html {

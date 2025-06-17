@@ -9,7 +9,7 @@ interface Props {
 const { id, thumbnail, title, authors } = Astro.props;
 
 ---
-<article class="p-4 bg-[#d5ccce]/20 rounded-xl transition hover:scale-105 cursor">
+<article class="p-4 bg-[#d5ccce]/20 rounded-xl transition hover:scale-105 cursor-pointer">
     <a href={`/book/${id}`} class="rounded-md mt-2 mb-4 flex justify-center items-center">
         <div class="w-48 h-48 overflow-hidden rounded">
             <img
@@ -26,8 +26,10 @@ const { id, thumbnail, title, authors } = Astro.props;
     </h2>
 
     {Array.isArray(authors) && authors.length > 0 ? (
-        authors.map((author) => (
-            <p class="text-gray-200 mb-1 text-center">{author}</p>
+        authors.slice(0, 2).map((author, index) => (
+            <p class="text-gray-200 mb-1 text-center">
+                {author}{index < 1 && authors.slice(0, 2).length > 1 ? ', ' : ''}
+            </p>
         ))
     ) : (
         <p class="text-gray-200 mb-2 text-center"></p>

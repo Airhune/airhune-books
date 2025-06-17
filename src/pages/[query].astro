@@ -26,29 +26,33 @@ const handleNewSearch = async () => {
 
 
 <Layout title={`Search results - Airhune Books`}>
+	<section class="p-5 rounded-4xl">
+        <div class="container mx-auto">
 
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-10 mt-20 text-center">
-        {searchTerm.trim() ? (
-            <span>Search results for: <span class="text-pink-500">{searchTerm}</span></span>
-        ) : (
-            <span>Search</span>
-        )}
-    </h2>
+            <h2 class="font-bold text-gray-200 text-5xl text-center pb-20 pt-20">
+                {searchTerm.trim() ? (
+                    <span>Search results for: <span class="text-pink-600">{searchTerm}</span></span>
+                ) : (
+                    <span>Search</span>
+                )}
+            </h2>
 
-    <Search />
+            <Search />
 
-    {searchTerm.trim() && searchResults.length === 0 ? (
-        <p class="text-gray-200 text-center">No se encontraron resultados.</p>
-    ) : searchResults.length > 0 ? (
-        <div class="container grid gap-6 md:grid-cols-6">
-            {searchResults.map((book: any) => (
-                <BookCard
-                    id={book.id}
-                    thumbnail={book.volumeInfo.imageLinks?.thumbnail}
-                    title={book.volumeInfo.title}
-                    authors={book.volumeInfo.authors}
-                />
-            ))}
+            {searchTerm.trim() && searchResults.length === 0 ? (
+                <p class="text-gray-200 text-center">No se encontraron resultados.</p>
+            ) : searchResults.length > 0 ? (
+                <div class="container grid gap-6 md:grid-cols-6">
+                    {searchResults.map((book: any) => (
+                        <BookCard
+                            id={book.id}
+                            thumbnail={book.volumeInfo.imageLinks?.thumbnail}
+                            title={book.volumeInfo.title}
+                            authors={book.volumeInfo.authors}
+                        />
+                    ))}
+                </div>
+            ) : null}
         </div>
-    ) : null}
+    </section>
 </Layout>

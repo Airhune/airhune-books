@@ -14,70 +14,89 @@ const categories = book.volumeInfo.categories?.[0]?.split("/").map((cat: string)
 
 const formatDate = (dateStr: string) => {
   if (!dateStr) return "";
+  // Si la fecha tiene solo 4 caracteres, asumimos que es solo el año
+  if (dateStr.length === 4) {
+    return dateStr; // Devuelve el año tal cual
+  }
+  // Si tiene más de 4 caracteres, asumimos un formato como "YYYY-MM-DD"
   const [year, month, day] = dateStr.split("-");
   return `${day}/${month}/${year}`;
 };
 
-const publishedDate = book.volumeInfo.publishedDate ? formatDate(book.volumeInfo.publishedDate): "No disponible";
+const publishedDate = book.volumeInfo.publishedDate ? formatDate(book.volumeInfo.publishedDate) : "No disponible";
 
 /*Related books*/
 const author = book.volumeInfo.authors?.[0];
-const related_response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=inauthor:${author}&maxResults=5&langRestrict=${lang}`);
+const related_response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=inauthor:${author}&maxResults=6&langRestrict=${lang}`);
 const related = await related_response.json();
 const relatedBooks = related.items || [];
-
+const filteredRelatedBooks = relatedBooks.filter((relatedBook: any) => relatedBook.id !== id);
+const finalRelatedBooks = filteredRelatedBooks.length < 5
+  ? [
+      ...filteredRelatedBooks,
+      ...relatedBooks
+        .filter((rb: any) => rb.id !== id)
+        .slice(filteredRelatedBooks.length, 5)
+    ].slice(0, 5)
+  : filteredRelatedBooks.slice(0, 5);
 ---
 
 <Layout title={`${book.volumeInfo.title} - Airhune Books`}>
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-10 mt-20 text-center">
-        {book.volumeInfo.title}
-    </h2>
+    <div class="container mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-10 mt-20 text-center">
+            {book.volumeInfo.title}
+        </h2>
 
-    <div class="bg-white/10 backdrop-blur-lg p-6 md:p-8 rounded-2xl shadow-xl flex flex-col md:flex-row gap-6 md:gap-8 transform">
-        <div class="w-full md:w-1/5 flex-shrink-0">
-            <div class="w-full overflow-hidden rounded-xl">
-                <img src={book.volumeInfo.imageLinks?.thumbnail || '/icon.png'} alt={`Portada de ${book.volumeInfo.title}`}  class="w-full h-auto object-contain transition-transform" class:list={{ 'opacity-30': !book.volumeInfo.imageLinks?.thumbnail }} />
+        <div class="bg-white/10 backdrop-blur-lg p-6 md:p-8 rounded-2xl shadow-xl flex flex-col md:flex-row gap-6 md:gap-8 transform">
+            <div class="w-full md:w-1/5 flex-shrink-0">
+                <div class="w-full overflow-hidden rounded-xl">
+                    <img transition:name={`img-${id}`} src={book.volumeInfo.imageLinks?.thumbnail || '/icon.png'} alt={`Portada de ${book.volumeInfo.title}`}  class="w-full h-auto object-contain transition-transform" class:list={{ 'opacity-30': !book.volumeInfo.imageLinks?.thumbnail }} />
+                </div>
             </div>
-        </div>
 
-        <div class="w-full md:w-2/3 flex flex-col">
-            <div>
-                <p class="text-2xl text-gray-200 mb-2 font-semibold">
-                    {book.volumeInfo.authors?.join(", ") || "Desconocido"}
+            <div class="w-full md:w-2/3 flex flex-col">
+                <div>
+                    <p class="text-2xl text-gray-200 mb-2 font-semibold">
+                        {book.volumeInfo.authors?.join(", ") || "Desconocido"}
+                    </p>
+                </div>
+                <p class="text-lg text-gray-200 mt-2">
+                    {publishedDate}
                 </p>
+
+                {categories && categories.length > 0 ? (
+                    <p class="text-lg text-gray-200 mt-4 mb-2">
+                        {
+                        categories.map((category: string) => (
+                            <span class="inline-block px-5 py-1 rounded bg-pink-200/30 mr-3">
+                            {category}
+                            </span>
+                        ))
+                        }
+                    </p>
+                ) :  null }
+
+                <p class="text-lg text-gray-200 mt-2 mb-4">
+                    {book.volumeInfo.pageCount} pages
+                </p>
+                <p class="text-xl text-gray-200 font-semibold mb-2">Summary</p>
+                <div class="text-gray-300 text-base leading-relaxed mb-4 line-clamp-6" set:html={book.volumeInfo?.description}></div>
             </div>
-            <p class="text-lg text-gray-200 mb-2 mt-2">
-                {publishedDate}
-            </p>
-            <p class="text-lg text-gray-200 mb-4 mt-4">
-                {
-                categories.map((category: string) => (
-                    <span class="inline-block px-5 py-1 rounded bg-pink-200/30 mr-3">
-                    {category}
-                    </span>
-                ))
-                }
-            </p>
-            <p class="text-lg text-gray-200 mb-4">
-                {book.volumeInfo.pageCount} pages
-            </p>
-            <p class="text-xl text-gray-200 font-semibold mb-2">Summary</p>
-            <div class="text-gray-300 text-base leading-relaxed mb-4 line-clamp-6" set:html={book.volumeInfo?.description}></div>
         </div>
-    </div>
 
-    <h3 class="text-2xl md:text-3xl font-bold text-white mb-10 mt-20">Related books</h3>
+        <h3 class="text-2xl md:text-3xl font-bold text-white mb-10 mt-20 text-center">Related books</h3>
 
-    <div class="container grid gap-6 md:grid-cols-5 mt-10">
-        {
-            relatedBooks.map((relatedBook: any) => (
-                <BookCard
-                    id={relatedBook.id}
-                    thumbnail={relatedBook.volumeInfo.imageLinks?.thumbnail}
-                    title={relatedBook.volumeInfo.title}
-                    authors={relatedBook.volumeInfo.authors}
-                />
-            ))
-        }
+        <div class="container grid gap-6 md:grid-cols-5 mt-10">
+            {
+                finalRelatedBooks.map((relatedBook: any) => (
+                    <BookCard
+                        id={relatedBook.id}
+                        thumbnail={relatedBook.volumeInfo.imageLinks?.thumbnail}
+                        title={relatedBook.volumeInfo.title}
+                        authors={relatedBook.volumeInfo.authors}
+                    />
+                ))
+            }
+        </div>
     </div>
 </Layout>
